@@ -1,0 +1,145 @@
+{% extends "base.html" %}
+{% set active_page = "analyze" %}
+
+{% block crumb %}Workspace / <strong>Analyze</strong>{% endblock %}
+{% block page_title %}Lesion Screening{% endblock %}
+
+{% block content %}
+      <!-- ---------- Stat cards ---------- -->
+      <section class="stats-grid">
+        <div class="stat-card">
+          <div class="stat-icon"><i class="bi bi-clipboard2-data"></i></div>
+          <div class="stat-body">
+            <span class="stat-label">Total Analyses</span>
+            <span class="stat-value">1,284</span>
+          </div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-icon stat-icon-ok"><i class="bi bi-broadcast"></i></div>
+          <div class="stat-body">
+            <span class="stat-label">System Status</span>
+            <span class="stat-value">Online</span>
+          </div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-icon"><i class="bi bi-diagram-3"></i></div>
+          <div class="stat-body">
+            <span class="stat-label">Models Loaded</span>
+            <span class="stat-value">2 / 2</span>
+          </div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-icon"><i class="bi bi-gpu-card"></i></div>
+          <div class="stat-body">
+            <span class="stat-label">Inference Device</span>
+            <span class="stat-value">CUDA &middot; GPU</span>
+          </div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-icon"><i class="bi bi-bullseye"></i></div>
+          <div class="stat-body">
+            <span class="stat-label">Avg. Confidence</span>
+            <span class="stat-value">94.2%</span>
+          </div>
+        </div>
+      </section>
+
+      <!-- ---------- Analyze grid ---------- -->
+      <div class="analyze-grid">
+
+        <!-- Upload card -->
+        <section class="upload-col">
+          <div class="glass-card upload-card">
+            <h2 class="card-title"><i class="bi bi-cloud-arrow-up"></i> Upload Image</h2>
+            <p class="card-subtitle">A single dermoscopic or close-up lesion image (JPG, PNG, or WebP).</p>
+
+            <label for="fileInput" class="dropzone" id="dropzone">
+              <input type="file" id="fileInput" accept="image/png, image/jpeg, image/webp" hidden>
+              <div id="dropzoneEmpty" class="dropzone-empty">
+                <i class="bi bi-image"></i>
+                <p><strong>Click to upload</strong> or drag and drop</p>
+                <span class="hint">Max 10&nbsp;MB</span>
+              </div>
+              <div id="previewWrap" class="preview-wrap d-none">
+                <img id="previewImage" alt="Lesion preview">
+                <div class="scan-line" id="scanLine"></div>
+              </div>
+            </label>
+
+            <button id="analyzeBtn" class="btn btn-analyze w-100" disabled>
+              <span id="analyzeBtnText"><i class="bi bi-magic"></i> Analyze Image</span>
+              <span id="analyzeSpinner" class="spinner-border spinner-border-sm d-none" role="status"></span>
+            </button>
+
+            <button id="resetBtn" class="btn btn-reset w-100 d-none">
+              <i class="bi bi-arrow-counterclockwise"></i> Analyze another image
+            </button>
+
+            <div id="errorBox" class="error-box d-none"></div>
+          </div>
+        </section>
+
+        <!-- Results -->
+        <section class="results-col">
+
+          <!-- Empty state -->
+          <div id="emptyState" class="glass-card empty-state">
+            <i class="bi bi-clipboard2-pulse"></i>
+            <p>Upload an image and tap <strong>Analyze Image</strong> to run the two-stage AI pipeline.</p>
+          </div>
+
+          <!-- Results (hidden until a prediction lands) -->
+          <div id="results" class="results d-none">
+
+            <!-- Final diagnosis -->
+            <div class="glass-card final-card" id="finalCard">
+              <div class="final-header">
+                <span class="stage-pill">Final Diagnosis</span>
+                <span id="finalBadge" class="final-badge"></span>
+              </div>
+              <h2 id="finalPrediction" class="final-prediction">&mdash;</h2>
+            </div>
+
+            <!-- Stage 1 card -->
+            <div class="glass-card stage-card" id="stage1Card">
+              <div class="stage-card-header">
+                <span class="stage-pill">Stage 1 &middot; Binary Screening</span>
+                <span id="stage1Badge" class="badge-outcome"></span>
+              </div>
+              <div class="confidence-row">
+                <div class="confidence-label">
+                  <span>Benign</span><span id="probBenignText">&mdash;</span>
+                </div>
+                <div class="progress"><div id="probBenignBar" class="progress-bar bar-benign" style="width:0%"></div></div>
+              </div>
+              <div class="confidence-row">
+                <div class="confidence-label">
+                  <span>Malignant</span><span id="probMalignantText">&mdash;</span>
+                </div>
+                <div class="progress"><div id="probMalignantBar" class="progress-bar bar-malignant" style="width:0%"></div></div>
+              </div>
+            </div>
+
+            <!-- Stage 2 card -->
+            <div class="glass-card stage-card d-none" id="stage2Card">
+              <div class="stage-card-header">
+                <span class="stage-pill pill-warn">Stage 2 &middot; Malignant Subtype</span>
+                <span id="stage2Badge" class="badge-outcome badge-malignant"></span>
+              </div>
+              <div id="stage2Bars"></div>
+            </div>
+
+            <!-- Recommendation -->
+            <div class="glass-card recommendation-card" id="recommendationCard">
+              <h3><i class="bi bi-clipboard2-heart"></i> Recommendation</h3>
+              <p id="recommendationText">&mdash;</p>
+            </div>
+
+          </div>
+        </section>
+      </div>
+{% endblock %}
+
+{% block scripts %}
+<script src="/static/script.js"></script>
+{% endblock %}

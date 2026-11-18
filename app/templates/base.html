@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>{% block title %}{{ app_title }}{% endblock %}</title>
+
+<!-- Bootstrap 5 -->
+<link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.3/css/bootstrap.min.css" rel="stylesheet">
+
+<!-- Fonts -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Inter:wght@400;500;600;700&family=IBM+Plex+Mono:wght@500;600&display=swap" rel="stylesheet">
+
+<!-- Icons -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-icons/1.11.3/font/bootstrap-icons.min.css">
+
+{% block head_extra %}{% endblock %}
+
+<link rel="stylesheet" href="/static/style.css">
+</head>
+<body>
+
+<div class="bg-mesh"></div>
+<div class="bg-grid"></div>
+
+<div class="dashboard-shell">
+
+  {% include "partials/_sidebar.html" %}
+
+  <!-- ===================== Main area ===================== -->
+  <div class="main-area">
+
+    <!-- ---------- Top header ---------- -->
+    <header class="topbar">
+      <div class="topbar-copy">
+        <span class="crumb">{% block crumb %}Workspace{% endblock %}</span>
+        <h2>{% block page_title %}{{ app_title }}{% endblock %}</h2>
+      </div>
+
+      <div class="ai-status" id="aiStatus">
+        <span class="status-dot" id="statusDot"></span>
+        <span id="statusText">Checking AI status&hellip;</span>
+      </div>
+    </header>
+
+    <div class="content-scroll">
+
+      {% block content %}{% endblock %}
+
+      {% include "partials/_footer.html" %}
+
+    </div>
+  </div>
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.3/js/bootstrap.bundle.min.js"></script>
+<script src="/static/status.js"></script>
+{% block scripts %}{% endblock %}
+</body>
+</html>

@@ -1,0 +1,89 @@
+{% extends "base.html" %}
+{% set active_page = "dashboard" %}
+
+{% block crumb %}Workspace / <strong>Dashboard</strong>{% endblock %}
+{% block page_title %}Dataset Analytics{% endblock %}
+
+{% block head_extra %}
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+{% endblock %}
+
+{% block content %}
+      <!-- ---------- Dataset Analytics (GET /dashboard) ---------- -->
+      <section class="glass-card dataset-card" id="datasetCard">
+        <h2 class="card-title"><i class="bi bi-bar-chart-line"></i> Dataset Analytics</h2>
+        <p class="card-subtitle">Live summary computed from the HAM10000 training metadata.</p>
+
+        <div id="datasetLoading" class="dataset-loading">
+          <span class="spinner-border spinner-border-sm"></span> Loading dataset statistics&hellip;
+        </div>
+        <div id="datasetError" class="error-box d-none"></div>
+
+        <div id="datasetBody" class="d-none">
+          <div class="stats-grid dataset-stats-grid">
+            <div class="stat-card">
+              <div class="stat-icon"><i class="bi bi-images"></i></div>
+              <div class="stat-body">
+                <span class="stat-label">Total Images</span>
+                <span class="stat-value" id="statTotalImages">&mdash;</span>
+              </div>
+            </div>
+            <div class="stat-card">
+              <div class="stat-icon"><i class="bi bi-person-standing"></i></div>
+              <div class="stat-body">
+                <span class="stat-label">Average Age</span>
+                <span class="stat-value" id="statAverageAge">&mdash;</span>
+              </div>
+            </div>
+            <div class="stat-card">
+              <div class="stat-icon"><i class="bi bi-gender-ambiguous"></i></div>
+              <div class="stat-body">
+                <span class="stat-label">Male / Female</span>
+                <span class="stat-value" id="statGenderSplit">&mdash;</span>
+              </div>
+            </div>
+            <div class="stat-card">
+              <div class="stat-icon"><i class="bi bi-tags"></i></div>
+              <div class="stat-body">
+                <span class="stat-label">Diagnosis Classes</span>
+                <span class="stat-value" id="statClassCount">&mdash;</span>
+              </div>
+            </div>
+            <div class="stat-card">
+              <div class="stat-icon"><i class="bi bi-geo-alt"></i></div>
+              <div class="stat-body">
+                <span class="stat-label">Body Locations</span>
+                <span class="stat-value" id="statLocationCount">&mdash;</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="charts-grid">
+            <div class="chart-box">
+              <span class="chart-title">Class Distribution</span>
+              <canvas id="chartClassDistribution"></canvas>
+            </div>
+            <div class="chart-box">
+              <span class="chart-title">Gender Distribution</span>
+              <canvas id="chartGender"></canvas>
+            </div>
+            <div class="chart-box chart-box-wide">
+              <span class="chart-title">Diagnosis Types</span>
+              <canvas id="chartDiagnosisTypes"></canvas>
+            </div>
+            <div class="chart-box chart-box-wide">
+              <span class="chart-title">Body Locations</span>
+              <canvas id="chartBodyLocations"></canvas>
+            </div>
+            <div class="chart-box chart-box-wide">
+              <span class="chart-title">Age Distribution</span>
+              <canvas id="chartAgeDistribution"></canvas>
+            </div>
+          </div>
+        </div>
+      </section>
+{% endblock %}
+
+{% block scripts %}
+<script src="/static/dashboard.js"></script>
+{% endblock %}
