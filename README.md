@@ -4,8 +4,6 @@ Shama is a web application that analyzes a dermoscopic image of a skin lesion in
 
 This was our graduation project. I led the team.
 
-> **Live demo:** [huggingface.co/spaces/aishaalsadani/shama](https://huggingface.co/spaces/aishaalsadani/shama)
-
 > ⚠️ **Shama is a research and education project, not a medical device.** Its output is not a diagnosis. Anyone worried about a skin lesion should see a dermatologist.
 
 ---
@@ -71,7 +69,7 @@ The team also tested a **late-fusion model** that combines image features with p
 - **Modeling:** PyTorch, torchvision (EfficientNet-B3, DenseNet121), DINOv2, scikit-learn
 - **Serving:** FastAPI, Uvicorn, Jinja2
 - **Frontend:** HTML, CSS, JavaScript, Bootstrap, Chart.js
-- **Deployment:** Docker, Hugging Face Spaces
+- **Deployment:** Docker
 - **Data:** [HAM10000](https://doi.org/10.7910/DVN/DBW86T), about 10,000 dermoscopic images in 7 diagnostic classes
 
 ## Repository structure
